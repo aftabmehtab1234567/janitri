@@ -5,11 +5,11 @@
     <classes>
       <class name="Testcase.Testcase">
         <methods>
-          <include name="testInvalidCredentials"/>
           <include name="testEyeToggleFunctionality"/>
+          <include name="testInvalidCredentials"/>
           <include name="testOnlyPassword"/>
-          <include name="setup"/>
           <include name="testOnlyUserId"/>
+          <include name="setup"/>
           <include name="testBlankCredentials"/>
           <include name="teardown"/>
         </methods>

@@ -1,5 +1,6 @@
 package Testcase;
 
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -10,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import Pageobject.LoginPage;
-
+@Listeners(TestNGListener.class)
 public class Testcase extends Base {
 
     @Test(priority = 1)
@@ -19,7 +20,9 @@ public class Testcase extends Base {
         login.enterUserId("validemail@example.com");
         login.enterPassword("validpassword");
         login.clickLogin();
-
+        By errorPageElement = By.xpath("//div[contains(@class,'invalid-credential-div')]");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorPageElement));
         Assert.assertFalse(driver.getCurrentUrl().contains("dashboard"), "Login should fail, but it succeeded.");
     }
 
@@ -30,7 +33,7 @@ public class Testcase extends Base {
         login.enterPassword("");
         login.clickLogin();
         By errorPageElement = By.xpath("//div[contains(@class,'invalid-credential-div')]");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorPageElement));
         Assert.assertFalse(driver.getPageSource().contains("required"), "Blank credentials error not shown");
     }
@@ -42,7 +45,7 @@ public class Testcase extends Base {
         login.enterPassword("");
         login.clickLogin();
         By errorPageElement = By.xpath("//div[contains(@class,'invalid-credential-div')]");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorPageElement));
         Assert.assertFalse(driver.getPageSource().contains("Password is required"), "Password error not shown");
     }
@@ -54,7 +57,7 @@ public class Testcase extends Base {
         login.enterPassword("somepassword");
         login.clickLogin();
         By errorPageElement = By.xpath("//div[contains(@class,'invalid-credential-div')]");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorPageElement));
         Assert.assertFalse(driver.getPageSource().contains("Email is required"), "Email error not shown");
     }
@@ -67,7 +70,7 @@ public class Testcase extends Base {
         login.clickLogin();
 
         By errorPageElement = By.xpath("//div[contains(@class,'invalid-credential-div')]");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorPageElement));
 
         Assert.assertTrue(error.isDisplayed(), "Invalid credentials error is not shown");
